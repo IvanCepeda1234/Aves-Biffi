@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aves Biffi · Avistamientos del Colegio Biffi La Salle</title>
+  <meta name="description" content="Plataforma para gestionar los avistamientos de aves del Colegio Biffi La Salle (Barranquilla). Datos de eBird e iNaturalist.">
+  <meta name="author" content="Iván Cepeda">
+  <link rel="icon" href="assets/logo-placeholder.svg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar__inner">
+      <a class="brand" href="#inicio">
+        <!-- Reemplaza assets/logo-colegio.png por el logo oficial del colegio -->
+        <img class="brand__logo" src="assets/logo-colegio.png" alt="Logo del Colegio Biffi La Salle"
+             onerror="this.onerror=null;this.src='assets/logo-placeholder.svg'">
+        <span class="brand__text">
+          <strong>Aves Biffi</strong>
+          <small>Colegio Biffi La Salle</small>
+        </span>
+      </a>
+      <nav class="nav" aria-label="Principal">
+        <a href="#avistamientos">Avistamientos</a>
+        <a href="#mapa">Mapa</a>
+        <a href="#registrar">Registrar</a>
+        <a href="#acerca">Acerca</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO + ESTADÍSTICAS -->
+    <section id="inicio" class="hero">
+      <div class="container">
+        <p class="eyebrow">Observatorio escolar · Barranquilla, Atlántico</p>
+        <h1>Avistamientos de aves del Colegio Biffi La Salle</h1>
+        <p class="lead">Registra, consulta y ubica en el mapa las aves observadas en el colegio y sus alrededores. Los datos de ejemplo provienen de eBird e iNaturalist.</p>
+        <div class="stats">
+          <div class="stat"><span class="stat__num" id="stat-total">–</span><span class="stat__label">Avistamientos</span></div>
+          <div class="stat"><span class="stat__num" id="stat-especies">–</span><span class="stat__label">Especies</span></div>
+          <div class="stat"><span class="stat__num" id="stat-locales">–</span><span class="stat__label">Registros del colegio</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LISTADO -->
+    <section id="avistamientos" class="section">
+      <div class="container">
+        <div class="section__head">
+          <h2>Avistamientos recientes</h2>
+          <p id="estado" class="status" role="status">Cargando avistamientos…</p>
+        </div>
+
+        <div class="filters">
+          <label class="field field--grow">
+            <span class="sr-only">Buscar</span>
+            <input id="f-buscar" type="search" placeholder="Buscar especie o lugar…" autocomplete="off">
+          </label>
+          <label class="field">
+            <span class="sr-only">Fuente</span>
+            <select id="f-fuente">
+              <option value="todas">Todas las fuentes</option>
+              <option value="eBird">eBird</option>
+              <option value="iNaturalist">iNaturalist</option>
+              <option value="Colegio">Registros del colegio</option>
+            </select>
+          </label>
+          <label class="field">
+            <span class="sr-only">Ordenar</span>
+            <select id="f-orden">
+              <option value="reciente">Más recientes</option>
+              <option value="nombre">Nombre (A–Z)</option>
+            </select>
+          </label>
+        </div>
+
+        <div id="lista" class="grid" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- MAPA -->
+    <section id="mapa" class="section section--alt">
+      <div class="container">
+        <div class="section__head">
+          <h2>Mapa de avistamientos</h2>
+          <ul class="legend">
+            <li><span class="dot dot--ebird"></span>eBird</li>
+            <li><span class="dot dot--inat"></span>iNaturalist</li>
+            <li><span class="dot dot--colegio"></span>Colegio</li>
+          </ul>
+        </div>
+        <div id="map" class="map" role="region" aria-label="Mapa de avistamientos"></div>
+      </div>
+    </section>
+
+    <!-- FORMULARIO -->
+    <section id="registrar" class="section">
+      <div class="container container--narrow">
+        <div class="section__head">
+          <h2>Registrar un avistamiento</h2>
+        </div>
+        <p class="hint">Por ahora los registros se guardan en este navegador. Más adelante se conectarán a una base de datos.</p>
+
+        <form id="form-avistamiento" class="form" novalidate>
+          <label class="field">
+            <span>Especie (nombre común) *</span>
+            <input name="especie" list="lista-especies" required placeholder="Ej. Guacharaca caribeña">
+            <datalist id="lista-especies"></datalist>
+          </label>
+          <label class="field">
+            <span>Nombre científico</span>
+            <input name="cientifico" placeholder="Ej. Ortalis garrula">
+          </label>
+          <div class="form__row">
+            <label class="field">
+              <span>Fecha y hora *</span>
+              <input name="fecha" type="datetime-local" required>
+            </label>
+            <label class="field">
+              <span>Cantidad</span>
+              <input name="cantidad" type="number" min="1" max="999" placeholder="1">
+            </label>
+          </div>
+          <label class="field">
+            <span>Lugar dentro del colegio *</span>
+            <select name="lugar" required>
+              <option value="Patio central">Patio central</option>
+              <option value="Canchas deportivas">Canchas deportivas</option>
+              <option value="Zonas verdes">Zonas verdes</option>
+              <option value="Entrada principal">Entrada principal</option>
+              <option value="Otro">Otro</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Observador</span>
+            <input name="observador" placeholder="Nombre y curso">
+          </label>
+          <label class="field">
+            <span>Notas</span>
+            <textarea name="notas" rows="3" placeholder="Comportamiento, canto, clima…"></textarea>
+          </label>
+          <button class="btn" type="submit">Guardar avistamiento</button>
+          <p id="form-msg" class="form__msg" role="status"></p>
+        </form>
+      </div>
+    </section>
+
+    <!-- ACERCA -->
+    <section id="acerca" class="section section--alt">
+      <div class="container container--narrow about">
+        <h2>Acerca del proyecto</h2>
+        <p>Aves Biffi es una plataforma escolar para documentar la avifauna del Colegio Biffi La Salle. Combina registros propios de la comunidad educativa con observaciones públicas cercanas para mostrar qué especies visitan la zona.</p>
+        <p class="credit">Desarrollado por <strong>Iván Cepeda</strong></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p>© 2026 Colegio Biffi La Salle · Trabajo final IV periodo</p>
+      <p>Desarrollado por <strong>Iván Cepeda</strong></p>
+      <p class="footer__data">Datos: <a href="https://ebird.org" target="_blank" rel="noopener">eBird</a> (Cornell Lab of Ornithology) · <a href="https://www.inaturalist.org" target="_blank" rel="noopener">iNaturalist</a> · Mapa © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a></p>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

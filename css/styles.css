@@ -1,0 +1,176 @@
+/* ===== Tokens ===== */
+:root {
+  --bg: #f5f7f1;
+  --surface: #ffffff;
+  --surface-2: #eef2e8;
+  --text: #1b2a21;
+  --muted: #5b6a60;
+  --line: #dde4d7;
+  --brand: #1f6f4a;
+  --brand-ink: #ffffff;
+  --accent: #d98e04;
+  --ebird: #2b6cb0;
+  --inat: #6d9f00;
+  --colegio: #1f6f4a;
+  --warn: #a15c00;
+  --radius: 14px;
+  --shadow: 0 1px 2px rgb(0 0 0 / .05), 0 6px 20px rgb(0 0 0 / .06);
+  --font: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Fraunces", Georgia, serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #101612;
+    --surface: #17201a;
+    --surface-2: #1c2820;
+    --text: #e6ede7;
+    --muted: #9aab9f;
+    --line: #2a382f;
+    --brand: #48b07a;
+    --brand-ink: #08130c;
+    --warn: #f0b34a;
+    --shadow: 0 1px 2px rgb(0 0 0 / .3), 0 6px 20px rgb(0 0 0 / .25);
+  }
+}
+
+/* ===== Base ===== */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+body {
+  margin: 0;
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; display: block; }
+a { color: var(--brand); }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.15; margin: 0; }
+h2 { font-size: clamp(1.4rem, 3vw, 1.9rem); }
+
+.container { width: min(1120px, 100% - 32px); margin-inline: auto; }
+.container--narrow { width: min(720px, 100% - 32px); }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ===== Topbar ===== */
+.topbar {
+  position: sticky; top: 0; z-index: 1000;
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.topbar__inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 10px; flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
+.brand__logo { width: 44px; height: 44px; object-fit: contain; }
+.brand__text { display: flex; flex-direction: column; line-height: 1.1; }
+.brand__text strong { font-family: var(--font-display); font-size: 1.15rem; }
+.brand__text small { color: var(--muted); font-size: .78rem; }
+.nav { display: flex; gap: 4px; overflow-x: auto; }
+.nav a {
+  text-decoration: none; color: var(--text); font-weight: 500; font-size: .92rem;
+  padding: 8px 12px; border-radius: 999px; white-space: nowrap;
+}
+.nav a:hover { background: var(--surface-2); }
+
+/* ===== Hero ===== */
+.hero {
+  padding: clamp(40px, 8vw, 88px) 0 clamp(32px, 6vw, 56px);
+  background:
+    radial-gradient(1200px 400px at 85% -10%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 60%),
+    radial-gradient(900px 400px at 0% 0%, color-mix(in srgb, var(--brand) 18%, transparent), transparent 60%);
+}
+.eyebrow { color: var(--brand); font-weight: 600; font-size: .85rem; letter-spacing: .04em; text-transform: uppercase; margin: 0 0 10px; }
+.hero h1 { font-size: clamp(2rem, 5.5vw, 3.4rem); max-width: 18ch; }
+.lead { color: var(--muted); font-size: 1.08rem; max-width: 60ch; margin: 16px 0 28px; }
+.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; max-width: 620px; }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; box-shadow: var(--shadow); }
+.stat__num { display: block; font-family: var(--font-display); font-size: 1.9rem; font-weight: 700; color: var(--brand); }
+.stat__label { color: var(--muted); font-size: .82rem; }
+
+/* ===== Secciones ===== */
+.section { padding: clamp(40px, 7vw, 72px) 0; }
+.section--alt { background: var(--surface-2); }
+.section__head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+.status { margin: 0; color: var(--muted); font-size: .9rem; }
+.status--warn { color: var(--warn); }
+
+/* ===== Filtros y campos ===== */
+.filters { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field--grow { flex: 1 1 240px; }
+.field > span { font-size: .88rem; font-weight: 500; }
+input, select, textarea {
+  font: inherit; color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--line); border-radius: 10px;
+  padding: 10px 12px; width: 100%;
+}
+input:focus, select:focus, textarea:focus { outline: 2px solid var(--brand); outline-offset: 1px; }
+
+/* ===== Tarjetas ===== */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+.card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  overflow: hidden; box-shadow: var(--shadow); display: flex; flex-direction: column;
+}
+.card__media { position: relative; aspect-ratio: 4 / 3; background: var(--surface-2); }
+.card__media img { width: 100%; height: 100%; object-fit: cover; }
+.card__ph { display: grid; place-items: center; height: 100%; color: var(--muted); }
+.card__ph svg { width: 56px; height: 56px; opacity: .5; }
+.badge {
+  position: absolute; top: 10px; left: 10px;
+  font-size: .72rem; font-weight: 600; color: #fff;
+  padding: 4px 10px; border-radius: 999px;
+}
+.badge--ebird { background: var(--ebird); }
+.badge--inaturalist { background: var(--inat); }
+.badge--colegio { background: var(--colegio); }
+.card__body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 4px; flex: 1; }
+.card__body h3 { font-size: 1.08rem; }
+.sci { font-style: italic; color: var(--muted); font-size: .88rem; margin: 0; }
+.meta { list-style: none; padding: 0; margin: 8px 0 0; font-size: .85rem; color: var(--muted); display: grid; gap: 2px; }
+.card__actions { margin-top: auto; padding-top: 12px; display: flex; gap: 10px; align-items: center; font-size: .88rem; }
+.link-btn { background: none; border: 0; color: #c0392b; font: inherit; cursor: pointer; padding: 0; }
+.empty { grid-column: 1 / -1; text-align: center; color: var(--muted); padding: 40px 16px; border: 1px dashed var(--line); border-radius: var(--radius); }
+
+/* ===== Mapa ===== */
+.map { height: clamp(320px, 55vh, 520px); border-radius: var(--radius); border: 1px solid var(--line); overflow: hidden; z-index: 0; }
+.legend { display: flex; gap: 14px; list-style: none; padding: 0; margin: 0; font-size: .85rem; color: var(--muted); }
+.legend li { display: flex; align-items: center; gap: 6px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.dot--ebird { background: var(--ebird); }
+.dot--inat { background: var(--inat); }
+.dot--colegio { background: var(--colegio); }
+
+/* ===== Formulario ===== */
+.hint { color: var(--muted); margin: -8px 0 20px; font-size: .92rem; }
+.form { display: grid; gap: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(16px, 4vw, 28px); box-shadow: var(--shadow); }
+.form__row { display: grid; grid-template-columns: 2fr 1fr; gap: 12px; }
+.form__msg { margin: 0; font-size: .9rem; color: var(--brand); min-height: 1.2em; }
+.btn {
+  font: inherit; font-weight: 600; cursor: pointer;
+  background: var(--brand); color: var(--brand-ink);
+  border: 0; border-radius: 10px; padding: 12px 18px; justify-self: start;
+}
+.btn:hover { filter: brightness(1.08); }
+
+/* ===== Acerca y footer ===== */
+.about p { color: var(--muted); }
+.credit { color: var(--text) !important; font-size: 1.05rem; }
+.footer { border-top: 1px solid var(--line); padding: 28px 0; font-size: .88rem; color: var(--muted); }
+.footer__inner { display: grid; gap: 4px; }
+.footer p { margin: 0; }
+.footer strong { color: var(--text); }
+
+/* ===== Responsive ===== */
+@media (max-width: 560px) {
+  .stats { grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+  .stat { padding: 10px; }
+  .stat__num { font-size: 1.5rem; }
+  .stat__label { font-size: .72rem; }
+  .form__row { grid-template-columns: 1fr; }
+  .topbar__inner { gap: 8px; }
+  .nav { width: 100%; }
+}

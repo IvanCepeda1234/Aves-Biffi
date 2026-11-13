@@ -1,0 +1,11 @@
+{
+  "name": "aves-biffi",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Gestión de avistamientos de aves del Colegio Biffi La Salle",
+  "author": "Iván Cepeda",
+  "type": "module",
+  "scripts": {
+    "dev": "vercel dev"
+  }
+}
